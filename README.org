@@ -1,0 +1,6 @@
+* Rube Goldberg Bits
+** About
+   A list of personal scripts that I use in my computing workflow
+** Included Scripts
+*** browse.sh
+    A script that opens different chromium profiles via dmenu
