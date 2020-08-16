@@ -2,5 +2,7 @@
 ** About
    A list of personal scripts that I use in my computing workflow
 ** Included Scripts
-*** browse.sh
-    A script that opens different chromium profiles via dmenu
+*** [[file:./browse.sh][browse.sh]]
+    A script that opens different chromium profiles via [[https://tools.suckless.org/dmenu/][dmenu]]
+*** [[./road-test][road-test]]
+    A set of scripts to check the availability of a road test (Alberta Road Test)

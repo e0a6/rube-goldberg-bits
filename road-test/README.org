@@ -1,0 +1,39 @@
+* Road Test Availability Finder
+** History
+    From 1993 to 2019 the Alberta driver road test was administered by a privatized system. It ended due to many reasons; the watershed moment being the [[https://en.wikipedia.org/wiki/Humboldt_Broncos_bus_crash][Humboldt Broncos bus crash]]. The Alberta Government instituted government controlled road tests starting March 1, 2019.
+
+    With the [[https://en.wikipedia.org/wiki/COVID-19_pandemic][COVID-19]] virus in full effect the supply of road tests shrunk and the demand,in my opinion, rose. The end result being many people waiting for many months, 6 plus in some instances, to book a road test. And if you failed, as I did, then all you had to do was wait 6 more months. If you were lucky to find one while refreshing the webpage, well you were just as unlucky when they disappeared as soon as they appeared.
+
+    Out of this frustration I wrote this script.
+** What Does It Do?
+    Periodically checks the [[https://scheduler.itialb4dmv.com/schAlberta][Alberta Road Test Scheduler]]. If an available booking is found, a desktop notification is emitted. This notification includes the current timestamp and registry location.
+** How Does It Work?
+    The script executes periodically via a [[https://en.wikipedia.org/wiki/Cron][cron]] job. The script itself uses [[https://en.wikipedia.org/wiki/CURL][cURL]] to make an HTTP request to get a session token and then uses the session token to make an additional request to get the available bookings.
+    Then using [[https://en.wikipedia.org/wiki/Grep][grep]] we can search through the response by using predefined regex tokens (just strings). A notification is emitted via [[https://manpages.debian.org/buster/libnotify-bin/notify-send.1.en.html][notify-send]] when one of the conditional blocks executes if grep conditional evaluates to true.
+** Current Status
+    Starting January 5, 2021 the Alberta road test has returned to a private system (Class 4 to 6). There is no longer a need to book through the Alberta Road Test Scheduler. You can book a private examiner by going to your local registry.
+    To sum it up. This script is not as useful as it used to be.
+    Nevertheless you can easily repurpose it or copy useful snippets.
+
+** FAQ
+*** How to add a cron job?
+    A good resource on setting up a cron job is the wikipedia [[https://en.wikipedia.org/wiki/Cron][article]]. The following are example cron job.
+
+    NOTE: The paths should be [[https://en.wikipedia.org/wiki/Path_(computing)#Absolute_and_relative_paths][absolute]]. This is not true for all the paths listed in cron jobs listed below.
+
+    NOTE: This cron job executes every single minute. To run it more frequently you could stagger multiple cron jobs, each prepend with [[https://en.wikipedia.org/wiki/Sleep_(command)][sleep]].
+#+begin_src bash
+# search all registries
+ * * * * * /usr/bin/bash ./general.sh
+# search one specific registry
+ * * * * * /usr/bin/bash ./specific.sh "Southland Registrations Ltd"
+# search all registres included in the registries file
+ * * * * * /usr/bin/cat ./registries | /usr/bin/xargs --max-procs=0 -i ./specific.sh {}
+# search all registries EVERY 20 seconds
+ * * * * * (sleep  0; /usr/bin/bash ./general.sh)
+ * * * * * (sleep 20; /usr/bin/bash ./general.sh)
+ * * * * * (sleep 40; /usr/bin/bash ./general.sh)
+#+end_src
+*** What is a "registry"?
+    The Canadian counterpart of the American [[https://en.wikipedia.org/wiki/Department_of_motor_vehicles][DMV]].
+    The differences is that each is a private business that provides additional services such as company incorporation, land title search, etc.
