@@ -1,28 +1,30 @@
 #!/bin/bash
 
-accounts="Main\nPro\nRich\nDIH\nGuest\nMorning"
-chosen=$(echo -e "$accounts" | dmenu -i -p "Browse as?")
+accounts="Main\nPro\nRich\nGuest\nMorning\n"
+chosen=$(echo -e "$accounts" | rofi -dmenu -i -p "Browse as?")
 
 # [ ] is equivalent to test
 # see man test
 #if [ $chosen == "Rich" ];then
 if [[ $chosen == "Main" ]];then
-	chromium --profile-directory="Default"
+	google-chrome --profile-directory="Default"
 elif [[ $chosen == "Pro" ]];then
-	chromium --profile-directory="Profile 6"
+	google-chrome --profile-directory="Profile 1"
 elif [[ $chosen == "Rich" ]];then
-	chromium --profile-directory="Profile 2"
-elif [[ $chosen == "DIH" ]];then
-	chromium --profile-directory="Profile 1"
+	google-chrome --profile-directory="Profile 2"
 elif [[ $chosen == "Guest" ]];then
-	chromium --guest --temp-profile
+	google-chrome --guest --temp-profile
 elif [[ $chosen == "Morning" ]];then
-	chromium --profile-directory="Default" \
+	google-chrome --profile-directory="Default" \
 		--new-window \
 		--temp-profile \
 		"gmail.com" \
-		"bbc.com" \
-		"outlook.office.com"
+		"outlook.office.com" \
+		"https://news.ycombinator.com" \
+		"https://www.latimes.com" \
+		"https://www.nytimes.com" \
+		"https://www.ft.com" \
+		"https://www.wsj.com"
 fi
 
 # https://askubuntu.com/questions/1230508/19141191410425-011526-129520errorsandbox-linux-cc374-initializesandbox
